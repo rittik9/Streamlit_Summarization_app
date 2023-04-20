@@ -5,14 +5,10 @@ emoji==2.2.0
 googletrans==3.1.0a0
 huggingface-hub==0.13.4
 lxml==4.9.2
-python
 pandas
-Pillow==9.5.0
 pip==23.1
-pyarrow==11.0.0
-requests==2.28.2
-snscrape==0.6.2.20230320
-streamlit==1.21.0
+snscrape
+streamlit
 sympy==1.11.1
 tokenizers==0.13.3
 toml==0.10.2
