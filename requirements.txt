@@ -7,7 +7,7 @@ huggingface-hub==0.13.4
 lxml==4.9.2
 pandas
 pip==23.1
-snscrape
+snscrape==0.5.0.20230113
 streamlit
 txtai[all]
 tokenizers
