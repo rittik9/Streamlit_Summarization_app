@@ -159,16 +159,17 @@ def pre_process(df):
     return s
 
 @st.cache(allow_output_mutation=True)
+
 def text_summary(text):
-    #create summary instance
-    summary = Summary()
-    text = (text)
-    result = summary(text)
-    return result
+	summary = Summary()
+    	text = (text)
+    	result = summary(text)
+    	return result
+
 def load_model_and_tokenizer():
-    tokenizer = AutoTokenizer.from_pretrained("rittik9/Pegasus-finetuned-tweet-summary")
-    model = AutoModelForSeq2SeqLM.from_pretrained("rittik9/Pegasus-finetuned-tweet-summary").to(device)
-    return tokenizer, model
+	tokenizer = AutoTokenizer.from_pretrained("rittik9/Pegasus-finetuned-tweet-summary")
+    	model = AutoModelForSeq2SeqLM.from_pretrained("rittik9/Pegasus-finetuned-tweet-summary").to(device)
+    	return tokenizer, model
 
 # API_URL = "https://api-inference.huggingface.co/models/rittik9/Pegasus-finetuned-tweet-summary"
 # headers = {"Authorization": "Bearer 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"}
@@ -194,7 +195,7 @@ if choice == "Summarize Text":
                 st.markdown("**Your Input Text**")
                 st.info(input_text)
             with col2:
-                st.markdown("**Summary Result**")
+		st.markdown("**Summary Result**")
 		result = text_summary(input_text)
 		st.success(result)
             
