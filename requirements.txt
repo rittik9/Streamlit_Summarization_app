@@ -9,9 +9,8 @@ pandas
 pip==23.1
 snscrape
 streamlit
-sympy==1.11.1
-tokenizers==0.13.3
-toml==0.10.2
+tokenizers
+toml
 torch==2.0.0
 tqdm==4.65.0
 transformers==4.28.1
