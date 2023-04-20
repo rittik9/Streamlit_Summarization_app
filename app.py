@@ -157,7 +157,7 @@ def pre_process(df):
         s+=i
     return s
 
-@st.cache_resource
+@st.cache(allow_output_mutation=True)
 def load_model_and_tokenizer():
     tokenizer = AutoTokenizer.from_pretrained("rittik9/Pegasus-finetuned-tweet-summary")
     model = AutoModelForSeq2SeqLM.from_pretrained("rittik9/Pegasus-finetuned-tweet-summary").to(device)
