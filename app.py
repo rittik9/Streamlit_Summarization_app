@@ -162,6 +162,15 @@ def load_model_and_tokenizer():
     model = AutoModelForSeq2SeqLM.from_pretrained("rittik9/Pegasus-finetuned-tweet-summary").to(device)
     return tokenizer, model
 
+API_URL = "https://api-inference.huggingface.co/models/rittik9/Pegasus-finetuned-tweet-summary"
+headers = {"Authorization": "Bearer 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"}
+
+def query(payload):
+	response = requests.post(API_URL, headers=headers, json=payload)
+	return response.json()
+	
+
+
 
 st.set_page_config(layout="wide")
 choice = st.sidebar.selectbox("Select your choice", ["Summarize Text", "Summarize Twitter Trending Topic"])
@@ -179,13 +188,15 @@ if choice == "Summarize Text":
             with col2:
                 st.markdown("**Summary Result**")
             
-                tokenizer,model=load_model_and_tokenizer()
-                inputs = tokenizer(input_text, max_length=1024,return_tensors="pt").to(device)
+                #tokenizer,model=load_model_and_tokenizer()
+                #inputs = tokenizer(input_text, max_length=1024,return_tensors="pt").to(device)
                 # Generate Summary
-                summary_ids = model.generate(inputs["input_ids"])
+                #summary_ids = model.generate(inputs["input_ids"])
                 #summary_ids = model.generate(inputs["input_ids"], max_length=num_tokens, early_stopping=True)
-                result=tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
-                st.success(result)
+                #result=tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+                result=query({"inputs": input_text,})
+               
+                st.success(result[0]['generated_text'])
                 
 if choice == "Summarize Twitter Trending Topic":
     st.subheader("Summarize Twitter Trending Topic")
@@ -199,11 +210,13 @@ if choice == "Summarize Twitter Trending Topic":
                 df = tweet_collection(input_text,n)
                 s=pre_process(df)
             
-                tokenizer,model=load_model_and_tokenizer()
-                inputs = tokenizer(s, max_length=1024,return_tensors="pt").to(device)
+                #tokenizer,model=load_model_and_tokenizer()
+                #inputs = tokenizer(s, max_length=1024,return_tensors="pt").to(device)
                 # Generate Summary
-                summary_ids = model.generate(inputs["input_ids"],max_length=300)
-                result=tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
-                st.success(result)
+                #summary_ids = model.generate(inputs["input_ids"],max_length=300)
+                #result=tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+                result=query({"inputs": input_text,})
+               
+                st.success(result[0]['generated_text'])
 
 st.markdown("<h1 style='text-align: center;'>Summarization App By Rittik Panda</h1>", unsafe_allow_html=True)
