@@ -8,6 +8,7 @@ import unicodedata
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import pandas as pd
 import numpy as np
+import requests
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
