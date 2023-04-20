@@ -9,6 +9,7 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import pandas as pd
 import numpy as np
 import requests
+from txtai.pipeline import Summary, Textractor
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -158,6 +159,12 @@ def pre_process(df):
     return s
 
 @st.cache(allow_output_mutation=True)
+def text_summary(text):
+    #create summary instance
+    summary = Summary()
+    text = (text)
+    result = summary(text)
+    return result
 def load_model_and_tokenizer():
     tokenizer = AutoTokenizer.from_pretrained("rittik9/Pegasus-finetuned-tweet-summary")
     model = AutoModelForSeq2SeqLM.from_pretrained("rittik9/Pegasus-finetuned-tweet-summary").to(device)
@@ -189,13 +196,14 @@ if choice == "Summarize Text":
             with col2:
                 st.markdown("**Summary Result**")
             
-                tokenizer,model=load_model_and_tokenizer()
-                inputs = tokenizer(input_text, max_length=1024,return_tensors="pt").to(device)
-                # Generate Summary
-                summary_ids = model.generate(inputs["input_ids"])
-                summary_ids = model.generate(inputs["input_ids"], max_length=num_tokens, early_stopping=True)
-                result=tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+#                 tokenizer,model=load_model_and_tokenizer()
+#                 inputs = tokenizer(input_text, max_length=1024,return_tensors="pt").to(device)
+#                 # Generate Summary
+#                 summary_ids = model.generate(inputs["input_ids"])
+#                 summary_ids = model.generate(inputs["input_ids"], max_length=num_tokens, early_stopping=True)
+#                 result=tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
                 #result=query({"inputs": input_text,})
+	        result = text_summary(input_text)
                
                 st.success(result)
                 
@@ -211,12 +219,13 @@ if choice == "Summarize Twitter Trending Topic":
                 df = tweet_collection(input_text,n)
                 s=pre_process(df)
             
-                tokenizer,model=load_model_and_tokenizer()
-                inputs = tokenizer(s, max_length=1024,return_tensors="pt").to(device)
+                #tokenizer,model=load_model_and_tokenizer()
+                #inputs = tokenizer(s, max_length=1024,return_tensors="pt").to(device)
                 # Generate Summary
-                summary_ids = model.generate(inputs["input_ids"],max_length=300)
-                result=tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+                #summary_ids = model.generate(inputs["input_ids"],max_length=300)
+                #result=tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
                 #result=query({"inputs": input_text,})
+		result = text_summary(s)
                
                 st.success(result)
 
