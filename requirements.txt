@@ -9,6 +9,7 @@ pandas
 pip==23.1
 snscrape
 streamlit
+txtai[all]
 tokenizers
 toml
 torch
